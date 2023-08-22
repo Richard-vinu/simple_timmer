@@ -1,1 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fullscreen Timer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #000000;
+            color: aqua;
+        }
+        #timer {
+            font-size: 30em;
+        }
+        .controls {
+            margin-top: 100px;
+        }
+        img {
+            margin-bottom: 50px;
+            background-color: rgb(88, 74, 74);
+            border-radius: 10px;
+
+        }
+    </style>
+</head>
+<body>
+    <img src="https://www.zysk.tech/img/logo.png" alt="Logo">
+    <div>
+        <div id="timer">00:00</div>
+        <div class="controls">
+            <input type="number" id="minutes" placeholder="Minutes" min="0">
+            <button onclick="startTimer()">Set Timer</button>
+            <button onclick="resetTimer()">Reset</button>
+        </div>
+    </div>
+
+    <script>
+        let interval;
+        let totalSeconds = 0;
+
+        function startTimer() {
+            clearInterval(interval);
+            const minutes = parseInt(document.getElementById('minutes').value, 10);
+            if (isNaN(minutes)) {
+                alert('Please enter a valid number of minutes.');
+                return;
+            }
+            totalSeconds = minutes * 60;
+            updateDisplay();
+            interval = setInterval(function() {
+                totalSeconds--;
+                updateDisplay();
+                if (totalSeconds <= 0) {
+                    clearInterval(interval);
+                    alert('Time is up!');
+                }
+            }, 1000);
+        }
+
+        function resetTimer() {
+            clearInterval(interval);
+            totalSeconds = 0;
+            document.getElementById('timer').textContent = '00:00';
+        }
+
+        function updateDisplay() {
+            const minutes = Math.floor(totalSeconds / 60);
+            const seconds = totalSeconds % 60;
+            document.getElementById('timer').textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
+    </script>
+</body>
+</html>
 
